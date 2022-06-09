@@ -6,9 +6,12 @@ import com.theevilroot.minikeyvaluekt.okhttp.MKVOkHttp
 import java.sql.*
 import java.util.*
 import java.util.concurrent.Executor
+import javax.naming.OperationNotSupportedException
 
 class MkvConnection(private val masterUri: String) : Connection {
 
+    private var readOnly: Boolean = false
+    private var networkTimeout: Int = 30
     private val miniKeyValue = MiniKeyValue(masterUri, MKVOkHttp, MKVGson)
 
     internal fun checkMasterConnection() {
@@ -19,13 +22,6 @@ class MkvConnection(private val masterUri: String) : Connection {
         return MkvStatement(miniKeyValue)
     }
 
-    override fun <T : Any?> unwrap(iface: Class<T>?): T {
-        TODO("Not yet implemented")
-    }
-
-    override fun isWrapperFor(iface: Class<*>?): Boolean {
-        TODO("Not yet implemented")
-    }
 
     override fun close() {
         TODO("Not yet implemented")
@@ -86,158 +82,164 @@ class MkvConnection(private val masterUri: String) : Connection {
     }
 
     override fun nativeSQL(sql: String?): String {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("Native SQL is not supported by MkvConnection")
     }
 
     override fun setAutoCommit(autoCommit: Boolean) {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("Commits is not supported by MkvConnection")
     }
 
     override fun getAutoCommit(): Boolean {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("Commits is not supported by MkvConnection")
     }
 
     override fun commit() {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("Commit is not supported by MkvConnection")
     }
 
     override fun rollback() {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("Rollback is not supported by MkvConnection")
     }
 
     override fun rollback(savepoint: Savepoint?) {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("Rollback is not supported by MkvConnection")
     }
 
     override fun isClosed(): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 
     override fun getMetaData(): DatabaseMetaData {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun setReadOnly(readOnly: Boolean) {
-        TODO("Not yet implemented")
+        this.readOnly = readOnly
     }
 
     override fun isReadOnly(): Boolean {
-        TODO("Not yet implemented")
+        return readOnly
     }
 
     override fun setCatalog(catalog: String?) {
-        TODO("Not yet implemented")
+        throw UnsupportedOperationException("setCatalog($catalog) is not supported by MkvConnection")
     }
 
     override fun getCatalog(): String {
-        TODO("Not yet implemented")
+        return "master"
     }
 
     override fun setTransactionIsolation(level: Int) {
-        TODO("Not yet implemented")
     }
 
     override fun getTransactionIsolation(): Int {
-        TODO("Not yet implemented")
+        return 0
     }
 
-    override fun getWarnings(): SQLWarning {
-        TODO("Not yet implemented")
+    override fun getWarnings(): SQLWarning? {
+        return null
     }
 
     override fun clearWarnings() {
-        TODO("Not yet implemented")
     }
 
     override fun getTypeMap(): MutableMap<String, Class<*>> {
-        TODO("Not yet implemented")
+        return mutableMapOf()
     }
 
     override fun setTypeMap(map: MutableMap<String, Class<*>>?) {
-        TODO("Not yet implemented")
     }
 
     override fun setHoldability(holdability: Int) {
-        TODO("Not yet implemented")
     }
 
     override fun getHoldability(): Int {
-        TODO("Not yet implemented")
+        return 0
     }
 
     override fun setSavepoint(): Savepoint {
-        TODO("Not yet implemented")
+        throw OperationNotSupportedException("Savepoints are not supported by MkvConnection")
     }
 
     override fun setSavepoint(name: String?): Savepoint {
-        TODO("Not yet implemented")
+        throw OperationNotSupportedException("Savepoints are not supported by MkvConnection")
     }
 
     override fun releaseSavepoint(savepoint: Savepoint?) {
-        TODO("Not yet implemented")
+        throw OperationNotSupportedException("Savepoints are not supported by MkvConnection")
     }
 
     override fun createClob(): Clob {
-        TODO("Not yet implemented")
+        throw OperationNotSupportedException("createClob() is not supported by MkvConnection")
     }
 
     override fun createBlob(): Blob {
-        TODO("Not yet implemented")
+        throw OperationNotSupportedException("createBlob() is not supported by MkvConnection")
     }
 
     override fun createNClob(): NClob {
-        TODO("Not yet implemented")
+        throw OperationNotSupportedException("createNClob() is not supported by MkvConnection")
     }
 
     override fun createSQLXML(): SQLXML {
-        TODO("Not yet implemented")
+        throw OperationNotSupportedException("createSQLXML() is not supported by MkvConnection")
     }
 
     override fun isValid(timeout: Int): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override fun setClientInfo(name: String?, value: String?) {
+        throw OperationNotSupportedException("setClientInfo() is not supported by MkvConnection")
+    }
+
+    override fun createArrayOf(typeName: String?, elements: Array<out Any>?): java.sql.Array {
+        throw OperationNotSupportedException("createArrayOf($typeName) is not supported by MkvConnection")
+    }
+
+    override fun createStruct(typeName: String?, attributes: Array<out Any>?): Struct {
+        throw OperationNotSupportedException("createStruct($typeName) is not supported by MkvConnection")
+    }
+
+    override fun setSchema(schema: String?) {
+        throw OperationNotSupportedException("setSchema($schema) is not supported by MkvConnection")
+    }
+
+    override fun getSchema(): String {
+        return "master"
+    }
+
+    override fun abort(executor: Executor?) {
+        throw OperationNotSupportedException("abort() is not supported by MkvConnection")
+    }
+
+    override fun setNetworkTimeout(executor: Executor?, milliseconds: Int) {
+        networkTimeout = milliseconds / 1000
+    }
+
+    override fun getNetworkTimeout(): Int {
+        return networkTimeout
+    }
+
+    /* Useless crap */
+
+    override fun <T : Any?> unwrap(iface: Class<T>?): T {
+        TODO("Not yet implemented")
+    }
+
+    override fun isWrapperFor(iface: Class<*>?): Boolean {
         TODO("Not yet implemented")
     }
 
     override fun setClientInfo(properties: Properties?) {
-        TODO("Not yet implemented")
+        throw OperationNotSupportedException("setClientInfo() is not supported by MkvConnection")
     }
 
     override fun getClientInfo(name: String?): String {
-        TODO("Not yet implemented")
+        return "ClientInfo"
     }
 
     override fun getClientInfo(): Properties {
-        TODO("Not yet implemented")
-    }
-
-    override fun createArrayOf(typeName: String?, elements: Array<out Any>?): java.sql.Array {
-        TODO("Not yet implemented")
-    }
-
-    override fun createStruct(typeName: String?, attributes: Array<out Any>?): Struct {
-        TODO("Not yet implemented")
-    }
-
-    override fun setSchema(schema: String?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getSchema(): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun abort(executor: Executor?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setNetworkTimeout(executor: Executor?, milliseconds: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getNetworkTimeout(): Int {
-        TODO("Not yet implemented")
+        return Properties()
     }
 }

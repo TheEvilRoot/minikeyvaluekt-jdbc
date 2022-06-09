@@ -23,6 +23,8 @@ class MkvDriver : Driver {
         const val PROP_PRE_CONNECT_TO_MASTER = "mkv.preconnect"
     }
 
+    private val logger: Logger = Logger.getLogger("MkvDriver")
+
     /**
      * Return Master Server HTTP URL from JDBC connection uri
      * Throw IllegalArgumentException if JDBC URI cannot be used to acquire Master Server URI
@@ -83,11 +85,11 @@ class MkvDriver : Driver {
     }
 
     override fun getParentLogger(): Logger {
-        TODO("Not yet implemented")
+        return logger
     }
 
     override fun getPropertyInfo(url: String?, info: Properties?): Array<DriverPropertyInfo> {
-        TODO("Not yet implemented")
+        return emptyArray()
     }
 
 }

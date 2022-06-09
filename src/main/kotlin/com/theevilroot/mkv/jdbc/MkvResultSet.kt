@@ -12,7 +12,6 @@ import java.sql.Date
 import java.util.*
 
 class MkvResultSet(
-    private val selectItem: MkvSelectItem,
     private val queries: List<MiniKeyValueQuery>
 ) : ResultSet {
 
